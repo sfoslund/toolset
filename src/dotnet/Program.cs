@@ -216,7 +216,7 @@ namespace Microsoft.DotNet.Cli
 
                 exitCode = builtIn.Command(appArgs.ToArray());
             }
-            else
+            else if (!string.IsNullOrEmpty(topLevelCommandParserResult.Command))
             {
                 CommandResult result = CommandFactoryUsingResolver.Create(
                         "dotnet-" + topLevelCommandParserResult.Command,
@@ -224,6 +224,10 @@ namespace Microsoft.DotNet.Cli
                         FrameworkConstants.CommonFrameworks.NetStandardApp15)
                     .Execute();
                 exitCode = result.ExitCode;
+            }
+            else
+            {
+                exitCode = 0;
             }
 
             telemetryClient.Flush();

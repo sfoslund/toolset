@@ -107,6 +107,19 @@ namespace Microsoft.DotNet.Tests
         }
 
         [Fact]
+        public void WhenResolveWithNoArgumentsItReturnsNull()
+        {
+            (FilePath fakeExecutable, LocalToolsCommandResolver localToolsCommandResolver) = DefaultSetup("-d");
+
+            var result = localToolsCommandResolver.Resolve(new CommandResolverArguments()
+            {
+                CommandName = "-d",
+            });
+
+            result.Should().BeNull();
+        }
+
+        [Fact]
         public void WhenNuGetGlobalPackageLocationIsCleanedAfterRestoreItShowError()
         {
             ToolCommandName toolCommandNameA = new ToolCommandName("a");
