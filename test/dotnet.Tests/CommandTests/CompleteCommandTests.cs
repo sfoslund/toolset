@@ -196,5 +196,20 @@ namespace Microsoft.DotNet.Tests.Commands
             CompleteCommand.RunWithReporter(new[] { "dotnet nuget push " }, reporter).Should().Be(0);
             reporter.Lines.Should().Equal(expected.OrderBy(c => c));
         }
+
+        [Fact]
+        public void GivenNoArgumentsProvided()
+        {
+            var cmd = new DotnetCommand().Execute(string.Empty);
+            cmd.StdErr.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void GivenOnlyArgumentProvidedIsDiagnosticsFlag()
+        {
+            var cmd = new DotnetCommand().Execute("-d");
+            cmd.ExitCode.Should().Be(0);
+            cmd.StdErr.Should().BeEmpty();
+        }
     }
 }
